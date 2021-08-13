@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/SimpleExoPlayerFragment/app/src/main/res/layout/activity_main.xml" value="0.2796296296296296" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/SimpleExoPlayerFragment/exoPlayerFragment-lib/src/main/res/drawable/ic_fullscreen.xml" value="0.30564102564102563" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/SimpleExoPlayerFragment/exoPlayerFragment-lib/src/main/res/drawable/player_controller_bottom_bg.xml" value="0.30564102564102563" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/SimpleExoPlayerFragment/exoPlayerFragment-lib/src/main/res/layout/exo_player_controller_view.xml" value="0.1" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/SimpleExoPlayerFragment/exoPlayerFragment-lib/src/main/res/layout/fragment_exo_p_layer.xml" value="0.1" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/SimpleExoPlayerFragment/exoPlayerFragment-lib/src/main/res/layout/fragment_exo_player.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
