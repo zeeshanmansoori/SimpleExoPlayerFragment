@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private var isFullScreen = false
     private var playerFragment: ExoPlayerFragment? = null
 
 
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
         setSupportActionBar(binding.toolbar)
         playerFragment = supportFragmentManager.findFragmentById(R.id.player_fragment) as ExoPlayerFragment
         playerFragment?.setListener(this)
-        //playerFragment?.playVideo("video uri".toUri())
 
     }
 
@@ -38,9 +38,19 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
 
 
     override fun onFullScreenChanged(isFullScreen: Boolean) {
-        Log.d(TAG, "onFullScreenChanged: fullscreen $isFullScreen")
+        this.isFullScreen = isFullScreen
     }
 
+    override fun isControllerVisible(visible: Boolean) {
+        Log.d(TAG, "isControllerVisible: $visible")
+    }
 
+    override fun onBackPressed() {
+        Log.d(TAG, "onBackPressed: full $isFullScreen")
+        if (isFullScreen)
+            playerFragment?.setFullScreen(false)
+        else super.onBackPressed()
+
+    }
 
 }

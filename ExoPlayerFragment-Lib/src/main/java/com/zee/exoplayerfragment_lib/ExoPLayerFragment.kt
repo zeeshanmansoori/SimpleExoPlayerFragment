@@ -62,8 +62,7 @@ class ExoPlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         exoPlayerBinding.player.setControllerVisibilityListener {
-            if (fullscreen && it == View.GONE)
-                hideSystemUI()
+            playBackListener?.isControllerVisible(it == View.VISIBLE)
         }
 
 
@@ -76,8 +75,6 @@ class ExoPlayerFragment : Fragment() {
                 exitFullScreen()
 
             }
-
-            playBackListener?.onFullScreenChanged(!fullscreen)
         }
     }
 
@@ -94,6 +91,7 @@ class ExoPlayerFragment : Fragment() {
             parentParams.height = oldHeight
             exoPlayerBinding.root.layoutParams = parentParams
             fullscreen = false
+            playBackListener?.onFullScreenChanged(fullscreen)
         }
     }
 
@@ -109,28 +107,11 @@ class ExoPlayerFragment : Fragment() {
             oldHeight = parentParams.height
             parentParams.height = window.attributes.height
             exoPlayerBinding.root.layoutParams = parentParams
+            exoPlayerBinding.root.layoutParams = parentParams
             fullscreen = true
+            playBackListener?.onFullScreenChanged(fullscreen)
         }
     }
-
-
-//    private fun hideSystemUI() {
-//        (activity as AppCompatActivity).apply {
-//            window.decorView.systemUiVisibility =
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-//                        View.SYSTEM_UI_FLAG_IMMERSIVE or
-//                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-//                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//
-//        }
-//    }
-//
-//    private fun showSystemUI() {
-//        (activity as AppCompatActivity).apply {
-//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-//        }
-//    }
 
 
     override fun onPause() {
@@ -208,14 +189,6 @@ class ExoPlayerFragment : Fragment() {
 
     }
 
-    interface PlayBackListener {
-        fun isVideoPlaying(boolean: Boolean)
-
-        //fun isVideoLoading(boolean: Boolean)
-        fun onFullScreenChanged(isFullScreen: Boolean)
-
-    }
-
 
     private fun hideSystemUI() {
         (activity as AppCompatActivity).apply {
@@ -236,6 +209,24 @@ class ExoPlayerFragment : Fragment() {
                 exoPlayerBinding.root
             ).show(WindowInsetsCompat.Type.systemBars())
         }
+    }
+
+
+    interface PlayBackListener {
+
+        fun isVideoPlaying(boolean: Boolean)
+
+        fun onFullScreenChanged(isFullScreen: Boolean)
+
+        fun isControllerVisible(visible: Boolean)
+
+    }
+
+
+    fun setFullScreen(fullScreen: Boolean) {
+        if (fullScreen)
+            setFullScreen()
+        else exitFullScreen()
     }
 
 }
