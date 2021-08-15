@@ -1,13 +1,18 @@
 package com.zee.exoplayerfragment_lib
 
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -35,11 +40,18 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: ")
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        Log.d(TAG, "onCreateView: ")
         exoPlayerBinding = FragmentExoPlayerBinding.inflate(inflater, container, false)
         initializePlayer()
         return exoPlayerBinding.root
@@ -102,23 +114,23 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
-    private fun hideSystemUI() {
-        (activity as AppCompatActivity).apply {
-            window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-
-        }
-    }
-
-    private fun showSystemUI() {
-        (activity as AppCompatActivity).apply {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-        }
-    }
+//    private fun hideSystemUI() {
+//        (activity as AppCompatActivity).apply {
+//            window.decorView.systemUiVisibility =
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+//                        View.SYSTEM_UI_FLAG_IMMERSIVE or
+//                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+//                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//
+//        }
+//    }
+//
+//    private fun showSystemUI() {
+//        (activity as AppCompatActivity).apply {
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+//        }
+//    }
 
 
     override fun onPause() {
@@ -205,5 +217,25 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
+    private fun hideSystemUI() {
+        (activity as AppCompatActivity).apply {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            WindowInsetsControllerCompat(window, exoPlayerBinding.root).let { controller ->
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
+    }
+
+    private fun showSystemUI() {
+        (activity as AppCompatActivity).apply {
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+            WindowInsetsControllerCompat(
+                window,
+                exoPlayerBinding.root
+            ).show(WindowInsetsCompat.Type.systemBars())
+        }
+    }
 
 }

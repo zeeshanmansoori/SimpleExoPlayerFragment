@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.net.toUri
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.zee.exoplayerfragment_lib.ExoPlayerFragment
 import com.zee.simpleexoplayerfragment.databinding.ActivityMainBinding
 
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
         setSupportActionBar(binding.toolbar)
         playerFragment = supportFragmentManager.findFragmentById(R.id.player_fragment) as ExoPlayerFragment
         playerFragment?.setListener(this)
-        playerFragment?.playVideo("video uri".toUri())
+        //playerFragment?.playVideo("video uri".toUri())
 
     }
 
@@ -38,5 +40,7 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
     override fun onFullScreenChanged(isFullScreen: Boolean) {
         Log.d(TAG, "onFullScreenChanged: fullscreen $isFullScreen")
     }
+
+
 
 }
