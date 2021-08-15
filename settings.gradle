@@ -8,4 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SimpleExoPlayerFragment"
 include ':app'
-include ':exoPlayerFragment-lib'
+include ':ExoPlayerFragment-Lib'

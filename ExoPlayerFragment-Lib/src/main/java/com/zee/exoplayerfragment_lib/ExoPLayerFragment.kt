@@ -117,7 +117,6 @@ class ExoPlayerFragment : Fragment() {
     private fun showSystemUI() {
         (activity as AppCompatActivity).apply {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-
         }
     }
 
