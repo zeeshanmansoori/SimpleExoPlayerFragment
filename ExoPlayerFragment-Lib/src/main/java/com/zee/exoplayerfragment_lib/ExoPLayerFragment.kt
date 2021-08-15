@@ -35,14 +35,8 @@ class ExoPlayerFragment : Fragment() {
         const val TAG = "SimpleExoPlayerFragment"
     }
 
-    private val fullScreenBtn: ImageView by lazy {
-        exoPlayerBinding.player.findViewById(R.id.exo_fullscreen_icon) as ImageView
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate: ")
+    private val fullScreenBtn: ImageView? by lazy {
+        exoPlayerBinding.player.findViewById(R.id.exo_fullscreen_icon) as ImageView?
     }
 
 
@@ -50,8 +44,6 @@ class ExoPlayerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        Log.d(TAG, "onCreateView: ")
         exoPlayerBinding = FragmentExoPlayerBinding.inflate(inflater, container, false)
         initializePlayer()
         return exoPlayerBinding.root
@@ -66,7 +58,7 @@ class ExoPlayerFragment : Fragment() {
         }
 
 
-        fullScreenBtn.setOnClickListener {
+        fullScreenBtn?.setOnClickListener {
 
             if (!fullscreen) {
                 setFullScreen()
@@ -81,7 +73,7 @@ class ExoPlayerFragment : Fragment() {
 
     private fun exitFullScreen() {
 
-        fullScreenBtn.setImageResource(R.drawable.ic_fullscreen)
+        fullScreenBtn?.setImageResource(R.drawable.ic_fullscreen)
         showSystemUI()
         (activity as AppCompatActivity).apply {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -97,7 +89,7 @@ class ExoPlayerFragment : Fragment() {
 
 
     private fun setFullScreen() {
-        fullScreenBtn.setImageResource(R.drawable.ic_fullscreen_exit)
+        fullScreenBtn?.setImageResource(R.drawable.ic_fullscreen_exit)
         hideSystemUI()
         (activity as AppCompatActivity).apply {
             supportActionBar?.hide()

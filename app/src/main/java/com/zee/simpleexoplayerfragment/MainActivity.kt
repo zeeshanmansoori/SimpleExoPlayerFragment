@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
         setSupportActionBar(binding.toolbar)
         playerFragment = supportFragmentManager.findFragmentById(R.id.player_fragment) as ExoPlayerFragment
         playerFragment?.setListener(this)
+        playerFragment?.playVideo("https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4".toUri())
 
     }
 
