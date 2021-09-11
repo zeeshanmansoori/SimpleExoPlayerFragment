@@ -9,10 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,6 +17,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.zee.exoplayerfragment_lib.databinding.FragmentExoPlayerBinding
@@ -87,10 +85,7 @@ class ExoPlayerFragment : Fragment() {
 
 
         exoSpeedBtn.setOnClickListener {
-//
-//            (activity as AppCompatActivity)?.apply {
-//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-//            }
+
             val speedControllerBtmSheet = SpeedControllerBtmSheet(playBackSpeed)
             speedControllerBtmSheet.show(childFragmentManager, "speed_btm_sheet")
 
@@ -125,6 +120,7 @@ class ExoPlayerFragment : Fragment() {
             if (Build.VERSION.SDK_INT >= VERSION_CODES.R) {
                 window.setDecorFitsSystemWindows(true)
             }
+
             supportActionBar?.show()
             val parentParams = exoPlayerBinding.root.layoutParams
             parentParams.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -217,6 +213,7 @@ class ExoPlayerFragment : Fragment() {
 
 
     private val listener = object : Player.Listener {
+
         override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
             super.onPlayWhenReadyChanged(playWhenReady, reason)
             //playBackListener!!.onPlayWhenReadyChanged()
@@ -224,13 +221,44 @@ class ExoPlayerFragment : Fragment() {
 
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
-            //playBackListener!!.isVideoPlaying()
+            if (playbackState == Player.STATE_READY)
+                playBackListener!!.onVideoStarted()
+
+            if (playbackState == Player.STATE_ENDED)
+                playBackListener!!.onVideoEnded()
+
+
+        }
+
+        override fun onPlayerError(error: PlaybackException) {
+            super.onPlayerError(error)
+            playBackListener!!.onError(error.toString())
         }
 
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             super.onIsPlayingChanged(isPlaying)
             playBackListener!!.isVideoPlaying(isPlaying)
         }
+
+        override fun onIsLoadingChanged(isLoading: Boolean) {
+            super.onIsLoadingChanged(isLoading)
+        }
+
+
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int
+        ) {
+            super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+
+            val seconds  = newPosition.contentPositionMs.div(1000)
+            playBackListener!!.onSeekTo(seconds)
+
+        }
+
+
+
 
 
     }
@@ -278,6 +306,14 @@ class ExoPlayerFragment : Fragment() {
 
         fun isControllerVisible(visible: Boolean)
 
+        fun onVideoStarted()
+
+        fun onError(error: String)
+
+        fun onVideoEnded()
+
+        fun onSeekTo(seconds:Long)
+
     }
 
 
@@ -286,5 +322,4 @@ class ExoPlayerFragment : Fragment() {
             setFullScreen()
         else exitFullScreen()
     }
-
 }

@@ -50,6 +50,22 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
         Log.d(TAG, "isControllerVisible: $visible")
     }
 
+    override fun onVideoStarted() {
+
+    }
+
+    override fun onError(error: String) {
+
+    }
+
+    override fun onVideoEnded() {
+
+    }
+
+    override fun onSeekTo(seconds: Long) {
+
+    }
+
     override fun onBackPressed() {
         Log.d(TAG, "onBackPressed: full $isFullScreen")
         if (isFullScreen)
