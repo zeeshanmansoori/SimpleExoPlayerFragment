@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="notification_icon_badge_color">#EB5757</color>
+    <color name="bottom_sheet_color">#17181C</color>
+    <color name="half_grey">#E8E8E8</color>
+</resources>

@@ -8,11 +8,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -27,12 +31,30 @@ class ExoPlayerFragment : Fragment() {
     private var playbackPosition = 0L
     private var currentWindow = 0
     private var fullscreen = false
+    private var playBackSpeed = 0F
 
     private var playBackListener: PlayBackListener? = null
     private var oldHeight = 0
 
     companion object {
         const val TAG = "SimpleExoPlayerFragment"
+    }
+
+    private val exoTitleContainer: LinearLayout by lazy {
+        exoPlayerBinding.player.findViewById(R.id.exo_controller_title_container) as LinearLayout
+    }
+
+
+    private val backButton: ImageButton by lazy {
+        exoPlayerBinding.player.findViewById(R.id.exo_back_btn) as ImageButton
+    }
+
+    private val exoTitle: TextView by lazy {
+        exoPlayerBinding.player.findViewById(R.id.exo_title) as TextView
+    }
+
+    private val exoSpeedBtn: ImageButton by lazy {
+        exoPlayerBinding.player.findViewById(R.id.zee_speed) as ImageButton
     }
 
     private val fullScreenBtn: ImageView? by lazy {
@@ -53,6 +75,24 @@ class ExoPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        backButton.setOnClickListener {
+            if (!fullscreen)
+                return@setOnClickListener
+            fullscreen = false
+            exitFullScreen()
+        }
+
+
+        exoSpeedBtn.setOnClickListener {
+//
+//            (activity as AppCompatActivity)?.apply {
+//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+//            }
+            val speedControllerBtmSheet = SpeedControllerBtmSheet(playBackSpeed)
+            speedControllerBtmSheet.show(childFragmentManager, "speed_btm_sheet")
+
+        }
+
         exoPlayerBinding.player.setControllerVisibilityListener {
             playBackListener?.isControllerVisible(it == View.VISIBLE)
         }
@@ -72,7 +112,7 @@ class ExoPlayerFragment : Fragment() {
 
 
     private fun exitFullScreen() {
-
+        exoTitleContainer.visibility = View.INVISIBLE
         fullScreenBtn?.setImageResource(R.drawable.ic_fullscreen)
         showSystemUI()
         (activity as AppCompatActivity).apply {
@@ -89,6 +129,7 @@ class ExoPlayerFragment : Fragment() {
 
 
     private fun setFullScreen() {
+        exoTitleContainer.isVisible = true
         fullScreenBtn?.setImageResource(R.drawable.ic_fullscreen_exit)
         hideSystemUI()
         (activity as AppCompatActivity).apply {
@@ -136,8 +177,8 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
-    fun playVideo(uri: Uri, position: Long = 0L) {
-
+    fun playVideo(title:String="",uri: Uri, position: Long = 0L) {
+        exoTitle.text = title
         initializePlayer()
         val mediaItem = MediaItem.fromUri(uri)
         player?.setMediaItem(mediaItem)
@@ -182,7 +223,20 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
-    private fun hideSystemUI() {
+    fun setSpeed(defSpeed: Float) {
+        kotlin.runCatching {
+            player?.apply {
+                playBackSpeed = defSpeed
+                setPlaybackSpeed(defSpeed)
+            }
+        }.onFailure {
+            Log.d("failed", "setSpeed: $it")
+        }
+    }
+
+
+
+    fun hideSystemUI() {
         (activity as AppCompatActivity).apply {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(window, exoPlayerBinding.root).let { controller ->

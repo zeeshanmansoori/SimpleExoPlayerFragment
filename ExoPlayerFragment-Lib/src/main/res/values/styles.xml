@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="popupMenuStyle">@style/Widget.AppCompat.PopupMenu</item>
+
+    </style>
+
+    <style parent="Widget.Design.BottomSheet.Modal" name="AppModalStyle">
+
+    <item name="android:background">@drawable/bookmark_bottom_sheet_bg</item>
+
+</style>
+</resources>
