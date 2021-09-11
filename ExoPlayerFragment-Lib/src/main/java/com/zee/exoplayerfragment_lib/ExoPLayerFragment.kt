@@ -1,8 +1,9 @@
 package com.zee.exoplayerfragment_lib
 
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.zee.exoplayerfragment_lib.databinding.FragmentExoPlayerBinding
 
+
 class ExoPlayerFragment : Fragment() {
 
     private lateinit var exoPlayerBinding: FragmentExoPlayerBinding
@@ -35,6 +37,7 @@ class ExoPlayerFragment : Fragment() {
 
     private var playBackListener: PlayBackListener? = null
     private var oldHeight = 0
+    private var oldWidth = 0
 
     companion object {
         const val TAG = "SimpleExoPlayerFragment"
@@ -116,7 +119,12 @@ class ExoPlayerFragment : Fragment() {
         fullScreenBtn?.setImageResource(R.drawable.ic_fullscreen)
         showSystemUI()
         (activity as AppCompatActivity).apply {
+
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+            if (Build.VERSION.SDK_INT >= VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(true)
+            }
             supportActionBar?.show()
             val parentParams = exoPlayerBinding.root.layoutParams
             parentParams.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -134,15 +142,20 @@ class ExoPlayerFragment : Fragment() {
         hideSystemUI()
         (activity as AppCompatActivity).apply {
             supportActionBar?.hide()
+
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+
             val parentParams = exoPlayerBinding.root.layoutParams
             parentParams.width = ViewGroup.LayoutParams.MATCH_PARENT
             oldHeight = parentParams.height
-            parentParams.height = window.attributes.height
-            exoPlayerBinding.root.layoutParams = parentParams
+            if (Build.VERSION.SDK_INT >= VERSION_CODES.R) {
+                parentParams.height = windowManager.currentWindowMetrics.bounds.width()
+            } else parentParams.height = windowManager.defaultDisplay.width
+
             exoPlayerBinding.root.layoutParams = parentParams
             fullscreen = true
             playBackListener?.onFullScreenChanged(fullscreen)
+
         }
     }
 
@@ -177,7 +190,7 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
-    fun playVideo(title:String="",uri: Uri, position: Long = 0L) {
+    fun playVideo(title: String = "", uri: Uri, position: Long = 0L) {
         exoTitle.text = title
         initializePlayer()
         val mediaItem = MediaItem.fromUri(uri)
@@ -235,10 +248,9 @@ class ExoPlayerFragment : Fragment() {
     }
 
 
-
     fun hideSystemUI() {
         (activity as AppCompatActivity).apply {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
+            WindowCompat.setDecorFitsSystemWindows(window, true)
             WindowInsetsControllerCompat(window, exoPlayerBinding.root).let { controller ->
                 controller.hide(WindowInsetsCompat.Type.systemBars())
                 controller.systemBarsBehavior =
@@ -249,7 +261,7 @@ class ExoPlayerFragment : Fragment() {
 
     private fun showSystemUI() {
         (activity as AppCompatActivity).apply {
-            WindowCompat.setDecorFitsSystemWindows(window, true)
+            WindowCompat.setDecorFitsSystemWindows(window, false)
             WindowInsetsControllerCompat(
                 window,
                 exoPlayerBinding.root

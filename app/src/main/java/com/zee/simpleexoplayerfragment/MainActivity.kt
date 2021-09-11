@@ -1,18 +1,16 @@
 package com.zee.simpleexoplayerfragment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.zee.exoplayerfragment_lib.ExoPlayerFragment
 import com.zee.simpleexoplayerfragment.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
 
 
-    private val binding: ActivityMainBinding by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
+    private val binding: ActivityMainBinding by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
@@ -20,16 +18,21 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
     private var playerFragment: ExoPlayerFragment? = null
 
 
-    companion object{
+    companion object {
         const val TAG = "MainActivity"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        playerFragment = supportFragmentManager.findFragmentById(R.id.player_fragment) as ExoPlayerFragment
+        playerFragment =
+            supportFragmentManager.findFragmentById(R.id.player_fragment) as ExoPlayerFragment
         playerFragment?.setListener(this)
-        playerFragment?.playVideo(title = "video","https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4".toUri())
+        playerFragment?.playVideo(
+            title = "video",
+            "https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4".toUri()
+        )
 
     }
 
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
 
     override fun onFullScreenChanged(isFullScreen: Boolean) {
         this.isFullScreen = isFullScreen
+        binding.scrollView.setEnableScrolling(!isFullScreen)
     }
 
     override fun isControllerVisible(visible: Boolean) {
