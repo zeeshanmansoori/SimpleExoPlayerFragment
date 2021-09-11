@@ -96,6 +96,8 @@ class ExoPlayerFragment : Fragment() {
         }
 
 
+
+
         fullScreenBtn?.setOnClickListener {
 
             if (!fullscreen) {
@@ -214,10 +216,6 @@ class ExoPlayerFragment : Fragment() {
 
     private val listener = object : Player.Listener {
 
-        override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-            super.onPlayWhenReadyChanged(playWhenReady, reason)
-            //playBackListener!!.onPlayWhenReadyChanged()
-        }
 
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
@@ -240,11 +238,6 @@ class ExoPlayerFragment : Fragment() {
             playBackListener!!.isVideoPlaying(isPlaying)
         }
 
-        override fun onIsLoadingChanged(isLoading: Boolean) {
-            super.onIsLoadingChanged(isLoading)
-        }
-
-
         override fun onPositionDiscontinuity(
             oldPosition: Player.PositionInfo,
             newPosition: Player.PositionInfo,
@@ -252,13 +245,10 @@ class ExoPlayerFragment : Fragment() {
         ) {
             super.onPositionDiscontinuity(oldPosition, newPosition, reason)
 
-            val seconds  = newPosition.contentPositionMs.div(1000)
+            val seconds = newPosition.contentPositionMs.div(1000)
             playBackListener!!.onSeekTo(seconds)
 
         }
-
-
-
 
 
     }
@@ -312,7 +302,7 @@ class ExoPlayerFragment : Fragment() {
 
         fun onVideoEnded()
 
-        fun onSeekTo(seconds:Long)
+        fun onSeekTo(seconds: Long)
 
     }
 
@@ -321,5 +311,15 @@ class ExoPlayerFragment : Fragment() {
         if (fullScreen)
             setFullScreen()
         else exitFullScreen()
+    }
+
+
+    fun seekTo(position: Long) {
+        player?.seekTo(position)
+    }
+
+
+    fun getVideoDuration(): Long {
+        return player?.duration?:0L
     }
 }
