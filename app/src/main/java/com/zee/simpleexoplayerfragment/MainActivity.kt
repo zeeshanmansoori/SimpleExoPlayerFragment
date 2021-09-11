@@ -70,6 +70,10 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
 
     }
 
+    override fun isBuffering(isBuffering: Boolean) {
+
+    }
+
     override fun onBackPressed() {
         Log.d(TAG, "onBackPressed: full $isFullScreen")
         if (isFullScreen)

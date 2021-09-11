@@ -20,7 +20,6 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.zee.exoplayerfragment_lib.databinding.FragmentExoPlayerBinding
 
 
@@ -231,6 +230,11 @@ class ExoPlayerFragment : Fragment() {
                 playBackListener!!.onVideoEnded()
 
 
+            if (playbackState == Player.STATE_BUFFERING)
+                playBackListener!!.isBuffering(true)
+            else playBackListener!!.isBuffering(false)
+
+
         }
 
         override fun onPlayerError(error: PlaybackException) {
@@ -309,7 +313,9 @@ class ExoPlayerFragment : Fragment() {
 
         fun onSeekTo(seconds: Long)
 
-        fun isLoading(isLoading:Boolean)
+        fun isLoading(isLoading: Boolean)
+
+        fun isBuffering(isBuffering: Boolean)
 
     }
 
@@ -327,6 +333,6 @@ class ExoPlayerFragment : Fragment() {
 
 
     fun getVideoDuration(): Long {
-        return player?.duration?:0L
+        return player?.duration ?: 0L
     }
 }
