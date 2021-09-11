@@ -66,6 +66,10 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
 
     }
 
+    override fun isLoading(isLoading: Boolean) {
+
+    }
+
     override fun onBackPressed() {
         Log.d(TAG, "onBackPressed: full $isFullScreen")
         if (isFullScreen)
@@ -73,6 +77,7 @@ class MainActivity : AppCompatActivity(), ExoPlayerFragment.PlayBackListener {
         else super.onBackPressed()
 
     }
+
 
 
 

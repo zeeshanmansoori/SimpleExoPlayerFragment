@@ -83,12 +83,15 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+
         <ImageButton
             android:id="@id/exo_play"
             style="@style/ExoMediaButton.Play"
             android:layout_height="wrap_content"
             android:background="?attr/actionBarItemBackground"
             android:src="@drawable/ic_play1" />
+
+
 
         <ImageButton
             android:id="@id/exo_pause"

@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.zee.exoplayerfragment_lib.databinding.FragmentExoPlayerBinding
 
 
@@ -216,6 +217,10 @@ class ExoPlayerFragment : Fragment() {
 
     private val listener = object : Player.Listener {
 
+        override fun onIsLoadingChanged(isLoading: Boolean) {
+            super.onIsLoadingChanged(isLoading)
+            playBackListener!!.isLoading(isLoading)
+        }
 
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
@@ -303,6 +308,8 @@ class ExoPlayerFragment : Fragment() {
         fun onVideoEnded()
 
         fun onSeekTo(seconds: Long)
+
+        fun isLoading(isLoading:Boolean)
 
     }
 
