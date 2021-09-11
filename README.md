@@ -1,2 +1,2 @@
 # SimpleExoPlayerFragment
-https://github.com/zeeshanmansoori/SimpleExoPlayerFragment
+[![](https://jitpack.io/v/zeeshanmansoori/SimpleExoPlayerFragment.svg)](https://jitpack.io/#zeeshanmansoori/SimpleExoPlayerFragment)
