@@ -4,15 +4,18 @@
 2. handle ativity/fragment life cycle events.
  
 
+## ScreenShots
+in portrait mode
+![portrait](https://user-images.githubusercontent.com/43025057/146138526-e7e30b43-92e5-49e4-8ac2-0500690b0289.jpg)
+
+fullscreen mode
+![full_screen](https://user-images.githubusercontent.com/43025057/146138733-69ec22a1-9c19-4d73-aea8-c5b3c03fc1a7.jpg)
+
 ## Gradle Dependency
-
-
-
-
-
 
 ### Repository
 Add this in your root build.gradle file (not your module build.gradle file):
+
 
 ```gradle
 allprojects {
