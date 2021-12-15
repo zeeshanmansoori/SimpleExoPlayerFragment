@@ -1,7 +1,16 @@
 # SimpleExoPlayerFragment [![](https://jitpack.io/v/zeeshanmansoori/SimpleExoPlayerFragment.svg)](https://jitpack.io/#zeeshanmansoori/SimpleExoPlayerFragment)
 
+1. make use of exo player with fragment.
+2. handle ativity/fragment life cycle events.
+ 
 
 ## Gradle Dependency
+
+
+
+
+
+
 ### Repository
 Add this in your root build.gradle file (not your module build.gradle file):
 
