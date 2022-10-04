@@ -33,7 +33,7 @@ Add this to your module's build.gradle file:
 
 dependencies {
 	...
-	implementation 'com.github.zeeshanmansoori.SimpleExoPlayerFragment:ExoPlayerFragment-Lib:latest_version' 
+	implementation 'com.github.zeeshanmansoori.SimpleExoPlayerFragment:ExoPlayerFragment-Lib::1.7' 
 	}
 }
  
